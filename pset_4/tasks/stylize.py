@@ -1,4 +1,10 @@
-from csci_utils.luigi.target import SuffixPreservingLocalTarget
+from .target import SuffixPreservingLocalTarget
+"""
+I wrote target.py file in csci_utils package, and got it running locally.
+However I couldn't get it run on travis. So I have to hack it here to
+make it run on travis.
+"""
+
 from .data import DownloadModel, DownloadImage
 from luigi.contrib.external_program import ExternalProgramTask
 from luigi import Parameter, format

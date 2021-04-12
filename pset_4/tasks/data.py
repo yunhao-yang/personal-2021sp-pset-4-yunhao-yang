@@ -1,7 +1,12 @@
 import os
 from luigi import ExternalTask, Parameter, Task, LocalTarget, format
 from luigi.contrib.s3 import S3Target
-from csci_utils.luigi.target import SuffixPreservingLocalTarget
+"""
+I wrote target.py file in csci_utils package, and got it running locally.
+However I couldn't get it run on travis. So I have to hack it here to
+make it run on travis.
+"""
+from .target import SuffixPreservingLocalTarget
 
 
 class Downloader(Task):

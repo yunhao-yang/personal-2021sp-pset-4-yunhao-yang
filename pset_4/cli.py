@@ -1,8 +1,5 @@
 from pset_4.tasks.stylize import *
 from pset_4.tasks.data import *
-import pandas as pd
-from csci_utils.io.my_io import atomic_write
-from csci_utils.hashing.hash_str import get_user_id
 import json
 import os
 import re
@@ -64,6 +61,12 @@ def get_submission_comments(repo: Repo, qsubmission: QuizSubmission) -> Dict:
 
 def main():
 
+    build([
+        Stylize(
+            image='mj.jpg',
+            model='candy.pth'
+        )], local_scheduler=True)
+
     repo = Repo(".")
 
     # Load environment
@@ -80,12 +83,12 @@ def main():
         masquerade = dict(as_user_id=as_user_id)
     else:
         masquerade = {}
-
+    """
     if repo.is_dirty() and not env.bool("ALLOW_DIRTY", False):
         raise RuntimeError(
             "Must submit from a clean working directory - commit your code and rerun"
         )
-
+    """
     # Load canvas objects
     canvas = Canvas(env.str("CANVAS_URL"), env.str("CANVAS_TOKEN"))
     course = canvas.get_course(course_id, **masquerade)
@@ -94,7 +97,7 @@ def main():
 
     # Begin submissions
     url = "https://github.com/csci-e-29/{}/commit/{}".format(
-        os.path.basename(repo.working_dir), repo.head.commit.hexsha
+        os.path.basename(repo.working_dir).replace('personal-', ''), repo.head.commit.hexsha
     )  # you MUST push to the classroom org, even if CI/CD runs elsewhere (you can push anytime before peer review begins)
 
     qsubmission = None
