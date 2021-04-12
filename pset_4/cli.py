@@ -60,6 +60,7 @@ def get_submission_comments(repo: Repo, qsubmission: QuizSubmission) -> Dict:
 
 
 def main():
+
     build([
         Stylize(
             image='mj.jpg',
