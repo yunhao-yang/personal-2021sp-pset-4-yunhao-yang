@@ -97,7 +97,7 @@ def main():
 
     # Begin submissions
     url = "https://github.com/csci-e-29/{}/commit/{}".format(
-        os.path.basename(repo.working_dir), repo.head.commit.hexsha
+        os.path.basename(repo.working_dir).replace('personal-', ''), repo.head.commit.hexsha
     )  # you MUST push to the classroom org, even if CI/CD runs elsewhere (you can push anytime before peer review begins)
 
     qsubmission = None
