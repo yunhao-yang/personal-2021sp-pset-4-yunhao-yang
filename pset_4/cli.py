@@ -27,8 +27,6 @@ def get_answers(questions: List[QuizSubmissionQuestion]) -> List[Dict]:
     # You are responsible for collating questions with the functions to call - do not hard code
     ans = []
     for qu in questions:
-        print(qu)
-        continue
         an = {}
         p_id = re.findall('id="(\w+)"', qu.question_text)[0]
         a_id = qu.id
@@ -40,45 +38,13 @@ def get_answers(questions: List[QuizSubmissionQuestion]) -> List[Dict]:
             an["answer"] = 4031
         elif p_id == "hours":
             an["answer"] = 568
-        elif p_id == "embeddings":
-            an["answer"] = embedding_answer(qu.answer)
-        elif p_id == "learnings":
-            an["answer"] = learning_answer(qu.answer)
+        elif p_id == "style":
+            an["answer"] = 'out_mj.jpg'
         else:
             raise RuntimeError("Unknown p_id {}".format(p_id))
         ans.append(an)
     return ans
     # eg {"id": questions[0].id, "answer": {key: some_func(key) for key in questions[0].answer.keys()}}
-
-
-def embedding_answer(qu_answer):
-    words_file = "data/words.txt"
-    vec_file = "data/vectors.npy.gz"
-    data_file = "data/learn.parquet"
-    embedding = WordEmbedding.from_files(words_file, vec_file)
-
-    an = qu_answer.copy()
-    for k, v in qu_answer.items():
-        v = embedding.embed_document(k.replace("_", " ")).sum()
-        an[k] = "{:.4f}".format(v)
-    return an
-
-
-def learning_answer(qu_answer):
-    words_file = "data/words.txt"
-    vec_file = "data/vectors.npy.gz"
-    data_file = "data/learn.parquet"
-    embedding = WordEmbedding.from_files(words_file, vec_file)
-    data = load_data(data_file)
-
-    an = qu_answer.copy()
-    for k, v in qu_answer.items():
-        distance = data["learn"].apply(
-            lambda x: embedding.text_distance(x, k.replace("_", " "))
-        )
-        user_id = distance.sort_values().index[0]
-        an[k] = user_id
-    return an
 
 
 def get_submission_comments(repo: Repo, qsubmission: QuizSubmission) -> Dict:
