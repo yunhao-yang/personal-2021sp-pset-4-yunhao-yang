@@ -5,7 +5,7 @@
 from unittest import TestCase
 import pset_4.tasks.data as data
 import pset_4.tasks.stylize as stylize
-import csci_utils.luigi.target as target
+import pset_4.tasks.target as target
 from luigi.contrib.s3 import S3Target
 import os
 
