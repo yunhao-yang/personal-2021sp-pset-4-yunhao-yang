@@ -8,9 +8,15 @@ import pset_4.tasks.stylize as stylize
 import pset_4.tasks.target as target
 from luigi.contrib.s3 import S3Target
 import os
+from luigi import build
 
 
 class DataTests(TestCase):
+    build([
+        data.DownloadModel(model='candy.pth'),
+        data.DownloadImage(image='luigi.jpg')
+    ], local_scheduler=True)
+
     def test_downloader(self):
         """
         Tests for download super class
