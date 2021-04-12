@@ -1,17 +1,37 @@
 import luigi
 from csci_utils.luigi.target import SuffixPreservingLocalTarget
 from .data import DownloadModel, DownloadImage
+from luigi.contrib.external_program import ExternalProgramTask
+from luigi import Parameter, format
+import os
 
-class Stylize():
-    model = None
-    image = None
+class Stylize(ExternalProgramTask):
+    model = Parameter()
+    image = Parameter()
+    LOCAL_ROOT = os.path.abspath('data')
+    MODEL_RELATIVE_PATH = 'saved_models'
+    IMAGE_RELATIVE_PATH = 'images'
 
-    def requires(self):
-        return {
-            'image': None,
-            'model': None,
-        }
+    def program_args(self):
+        # Be sure to use self.temp_output_path
+        model_file = '{}/{}/{}'.format(self.LOCAL_ROOT, self.MODEL_RELATIVE_PATH, self.model)
+        image_file = '{}/{}/{}'.format(self.LOCAL_ROOT, self.IMAGE_RELATIVE_PATH, self.image)
+        command = """python -m neural_style eval --content-image {} --model {} --output-image {} --cuda 0""".format(
+            image_file, model_file, self.temp_output_path)
+        print (command.split(" "))
+        return command.split(" ")
 
     def output(self):
-        # return SuffixPreservingLocalTarget of the stylized image
-        raise NotImplementedError()
+        out_image_file = '{}/{}/out_{}'.format(self.LOCAL_ROOT, self.IMAGE_RELATIVE_PATH, self.image)
+        return SuffixPreservingLocalTarget(out_image_file, format=format.Nop)
+
+    def run(self):
+        # You must set up an atomic write!
+        # (use self.output().path if you can't get that working)
+        out_image_file = '{}/{}/out_{}'.format(self.LOCAL_ROOT, self.IMAGE_RELATIVE_PATH, self.image)
+
+        with self.output().temporary_path() as self.temp_output_path:
+            super().run()
+
+    def requires(self):
+        return [DownloadModel(self.model), DownloadImage(self.image)]
