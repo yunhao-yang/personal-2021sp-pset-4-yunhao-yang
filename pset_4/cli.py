@@ -1,8 +1,5 @@
 from pset_4.tasks.stylize import *
 from pset_4.tasks.data import *
-import pandas as pd
-from csci_utils.io.my_io import atomic_write
-from csci_utils.hashing.hash_str import get_user_id
 import json
 import os
 import re
@@ -63,6 +60,11 @@ def get_submission_comments(repo: Repo, qsubmission: QuizSubmission) -> Dict:
 
 
 def main():
+    build([
+        Stylize(
+            image='mj.jpg',
+            model='candy.pth'
+        )], local_scheduler=True)
 
     repo = Repo(".")
 
