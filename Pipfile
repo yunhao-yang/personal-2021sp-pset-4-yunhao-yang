@@ -18,10 +18,11 @@ pyarrow = "*"
 python-git = "*"
 gitpython = "*"
 luigi = "*"
+boto3 = "*"
+torch = "*"
+torchvision = "*"
+csci-utils = {editable = true,git = "https://github.com/csci-e-29/2021sp-csci-utils-yunhao-yang"}
 
 [requires]
 python_version = "3.8"
 
-[packages.csci-utils]
-editable = true
-git = "https://github.com/csci-e-29/2021sp-csci-utils-yunhao-yang"

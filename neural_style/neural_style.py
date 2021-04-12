@@ -12,9 +12,9 @@ from torchvision import datasets
 from torchvision import transforms
 import torch.onnx
 
-import utils
-from transformer_net import TransformerNet
-from vgg import Vgg16
+import neural_style.utils as utils
+from neural_style.transformer_net import TransformerNet
+from neural_style.vgg import Vgg16
 
 
 def check_paths(args):
@@ -236,5 +236,5 @@ def main():
         stylize(args)
 
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()

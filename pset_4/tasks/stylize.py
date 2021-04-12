@@ -2,7 +2,7 @@ import luigi
 from csci_utils.luigi.target import SuffixPreservingLocalTarget
 from .data import DownloadModel, DownloadImage
 
-class Stylize:
+class Stylize():
     model = None
     image = None
 
