@@ -82,12 +82,12 @@ def main():
         masquerade = dict(as_user_id=as_user_id)
     else:
         masquerade = {}
-
+    """
     if repo.is_dirty() and not env.bool("ALLOW_DIRTY", False):
         raise RuntimeError(
             "Must submit from a clean working directory - commit your code and rerun"
         )
-
+    """
     # Load canvas objects
     canvas = Canvas(env.str("CANVAS_URL"), env.str("CANVAS_TOKEN"))
     course = canvas.get_course(course_id, **masquerade)
