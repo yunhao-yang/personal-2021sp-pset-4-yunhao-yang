@@ -3,6 +3,8 @@ language: python
 python:
   - 3.8
 
+before_install:
+  - echo -e "machine github.com\n  login $CI_USER_TOKEN" > ~/.netrc
 install:
   - pipenv install --dev --ignore-pipfile --deploy
 
@@ -23,6 +25,6 @@ deploy:
   # Before running, get the data from s3 using the secret
   # credentials entered at https://travis-ci.com/csci-e-29/YOUR_PSET_REPO_NAME/settings
   # DO NOT commit these variables to git.
-  script: make data && pipenv run python -m pset_1
+  script: pipenv run python -m pset_4
 
 

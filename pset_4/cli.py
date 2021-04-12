@@ -15,7 +15,8 @@ from canvasapi.quiz import QuizSubmission
 from canvasapi.quiz import QuizSubmissionQuestion
 from environs import Env
 from git import Repo
-
+from luigi import build
+from .tasks.stylize import Stylize
 from csci_utils.canvas.my_canvas import MyCourse
 
 
